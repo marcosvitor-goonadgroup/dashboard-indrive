@@ -361,21 +361,13 @@ const PIInfoCard = ({ numeroPi, campaignData = [] }: PIInfoCardProps) => {
             </div>
           </div>
 
-          {/* Praça + Segmentação lado a lado */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {firstInfo.praca && (
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <p className="text-xs font-medium text-gray-500 mb-2">Praça</p>
-                <p className="text-sm text-gray-700">{firstInfo.praca}</p>
-              </div>
-            )}
-            {firstInfo.segmentacao && (
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <p className="text-xs font-medium text-gray-500 mb-2">Segmentação</p>
-                <p className="text-sm text-gray-700">{firstInfo.segmentacao}</p>
-              </div>
-            )}
-          </div>
+          {/* Praça */}
+          {firstInfo.praca && (
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <p className="text-xs font-medium text-gray-500 mb-2">Praça</p>
+              <p className="text-sm text-gray-700">{firstInfo.praca}</p>
+            </div>
+          )}
 
           {/* Público (se houver) */}
           {firstInfo.publico && (
