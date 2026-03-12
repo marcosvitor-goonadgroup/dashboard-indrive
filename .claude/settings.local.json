@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(find C:UsersmarcoOneDriveDesktopGOONAdDeskArtPlan -type f -name *.env* -o -name *.json -o -name *.js -o -name *.ts -o -name *.tsx)"
+    ]
+  }
+}
