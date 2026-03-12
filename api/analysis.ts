@@ -13,7 +13,7 @@ interface HistoryEntry {
   timestamp: string;
 }
 
-const redisUrl = process.env.REDIS_URL || '';
+const redisUrl = process.env.teste_REDIS_URL || process.env.REDIS_URL || '';
 
 let redis: Redis;
 try {
