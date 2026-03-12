@@ -16,6 +16,12 @@ export const MOOVIT_DEVICE_API_URL = 'https://nmbcoamazonia-api.vercel.app/googl
 
 export const MOOVIT_HOUR_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Hora';
 
+export const MOOVIT_OPERADORA_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Operadora';
+
+export const MOOVIT_APARELHO_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Aparelho';
+
+export const MOOVIT_MAPA_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Mapa';
+
 const parseNumber = (value: string): number => {
   if (!value || value === '') return 0;
   const cleaned = value.replace(/\./g, '').replace(',', '.');
@@ -248,6 +254,77 @@ export const fetchMoovitDeviceData = async (): Promise<MoovitDeviceRow[]> => {
     return [];
   } catch (error) {
     console.error('Erro ao buscar dados de dispositivo Moovit:', error);
+    return [];
+  }
+};
+
+export interface MoovitOperadoraRow {
+  date: Date;
+  operadora: string;
+  totalImpressions: number;
+}
+
+export interface MoovitAparelhoRow {
+  date: Date;
+  aparelho: string;
+  totalImpressions: number;
+}
+
+export const fetchMoovitOperadoraData = async (): Promise<MoovitOperadoraRow[]> => {
+  try {
+    const response = await axios.get<ApiResponse>(MOOVIT_OPERADORA_API_URL);
+    if (response.data.success && response.data.data.values.length > 1) {
+      return response.data.data.values.slice(1).map(row => ({
+        date: parseDate(row[0]),
+        operadora: row[1] || '',
+        totalImpressions: parseNumber(row[2])
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error('Erro ao buscar dados de operadora Moovit:', error);
+    return [];
+  }
+};
+
+export const fetchMoovitAparelhoData = async (): Promise<MoovitAparelhoRow[]> => {
+  try {
+    const response = await axios.get<ApiResponse>(MOOVIT_APARELHO_API_URL);
+    if (response.data.success && response.data.data.values.length > 1) {
+      return response.data.data.values.slice(1).map(row => ({
+        date: parseDate(row[0]),
+        aparelho: row[1] || '',
+        totalImpressions: parseNumber(row[2])
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error('Erro ao buscar dados de aparelho Moovit:', error);
+    return [];
+  }
+};
+
+export interface MoovitMapaRow {
+  date: Date;
+  city: string;
+  totalImpressions: number;
+  totalClicks: number;
+}
+
+export const fetchMoovitMapaData = async (): Promise<MoovitMapaRow[]> => {
+  try {
+    const response = await axios.get<ApiResponse>(MOOVIT_MAPA_API_URL);
+    if (response.data.success && response.data.data.values.length > 1) {
+      return response.data.data.values.slice(1).map(row => ({
+        date: parseDate(row[0]),
+        city: row[1] || '',
+        totalImpressions: parseNumber(row[2]),
+        totalClicks: parseNumber(row[3])
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error('Erro ao buscar dados de mapa Moovit:', error);
     return [];
   }
 };
