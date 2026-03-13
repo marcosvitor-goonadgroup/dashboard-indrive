@@ -22,6 +22,10 @@ export const MOOVIT_APARELHO_API_URL = 'https://nmbcoamazonia-api.vercel.app/goo
 
 export const MOOVIT_MAPA_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Mapa';
 
+export const MOOVIT_GENERO_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Genero';
+
+export const MOOVIT_FAIXA_ETARIA_API_URL = 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Mm3SAsFUtMATjyr3K3UII4r5wF-eMJ-LfVct8MZJEGk/data?range=Moovit%20-%20Faixa%20Etaria%20de%20Idade';
+
 const parseNumber = (value: string): number => {
   if (!value || value === '') return 0;
   const cleaned = value.replace(/\./g, '').replace(',', '.');
@@ -325,6 +329,48 @@ export const fetchMoovitMapaData = async (): Promise<MoovitMapaRow[]> => {
     return [];
   } catch (error) {
     console.error('Erro ao buscar dados de mapa Moovit:', error);
+    return [];
+  }
+};
+
+export interface MoovitGeneroRow {
+  genero: string;
+  impressoes: number;
+}
+
+export const fetchMoovitGeneroData = async (): Promise<MoovitGeneroRow[]> => {
+  try {
+    const response = await axios.get<ApiResponse>(MOOVIT_GENERO_API_URL);
+    if (response.data.success && response.data.data.values.length > 1) {
+      return response.data.data.values.slice(1).map(row => ({
+        genero: row[0] || '',
+        impressoes: parseNumber(row[1])
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error('Erro ao buscar dados de gênero Moovit:', error);
+    return [];
+  }
+};
+
+export interface MoovitFaixaEtariaRow {
+  faixa: string;
+  impressoes: number;
+}
+
+export const fetchMoovitFaixaEtariaData = async (): Promise<MoovitFaixaEtariaRow[]> => {
+  try {
+    const response = await axios.get<ApiResponse>(MOOVIT_FAIXA_ETARIA_API_URL);
+    if (response.data.success && response.data.data.values.length > 1) {
+      return response.data.data.values.slice(1).map(row => ({
+        faixa: row[0] || '',
+        impressoes: parseNumber(row[1])
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error('Erro ao buscar dados de faixa etária Moovit:', error);
     return [];
   }
 };

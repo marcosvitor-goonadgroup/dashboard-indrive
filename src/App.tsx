@@ -18,7 +18,9 @@ import MoovitHourChart from './components/MoovitHourChart';
 import MoovitOperadoraChart from './components/MoovitOperadoraChart';
 import MoovitAparelhoChart from './components/MoovitAparelhoChart';
 import MoovitMapChart from './components/MoovitMapChart';
-import { fetchMoovitDeviceData, fetchMoovitHourData, fetchMoovitOperadoraData, fetchMoovitAparelhoData, fetchMoovitMapaData, MoovitDeviceRow, MoovitHourRow, MoovitOperadoraRow, MoovitAparelhoRow, MoovitMapaRow } from './services/api';
+import MoovitGeneroChart from './components/MoovitGeneroChart';
+import MoovitFaixaEtariaChart from './components/MoovitFaixaEtariaChart';
+import { fetchMoovitDeviceData, fetchMoovitHourData, fetchMoovitOperadoraData, fetchMoovitAparelhoData, fetchMoovitMapaData, fetchMoovitGeneroData, fetchMoovitFaixaEtariaData, MoovitDeviceRow, MoovitHourRow, MoovitOperadoraRow, MoovitAparelhoRow, MoovitMapaRow, MoovitGeneroRow, MoovitFaixaEtariaRow } from './services/api';
 import { subDays } from 'date-fns';
 
 const DashboardContent = () => {
@@ -34,22 +36,28 @@ const DashboardContent = () => {
   const [moovitOperadoraData, setMoovitOperadoraData] = useState<MoovitOperadoraRow[]>([]);
   const [moovitAparelhoData, setMoovitAparelhoData] = useState<MoovitAparelhoRow[]>([]);
   const [moovitMapaData, setMoovitMapaData] = useState<MoovitMapaRow[]>([]);
+  const [moovitGeneroData, setMoovitGeneroData] = useState<MoovitGeneroRow[]>([]);
+  const [moovitFaixaEtariaData, setMoovitFaixaEtariaData] = useState<MoovitFaixaEtariaRow[]>([]);
 
   // Load Moovit supplementary data
   useEffect(() => {
     const loadMoovitData = async () => {
-      const [deviceData, hourData, operadoraData, aparelhoData, mapaData] = await Promise.all([
+      const [deviceData, hourData, operadoraData, aparelhoData, mapaData, generoData, faixaEtariaData] = await Promise.all([
         fetchMoovitDeviceData(),
         fetchMoovitHourData(),
         fetchMoovitOperadoraData(),
         fetchMoovitAparelhoData(),
-        fetchMoovitMapaData()
+        fetchMoovitMapaData(),
+        fetchMoovitGeneroData(),
+        fetchMoovitFaixaEtariaData()
       ]);
       setMoovitDeviceData(deviceData);
       setMoovitHourData(hourData);
       setMoovitOperadoraData(operadoraData);
       setMoovitAparelhoData(aparelhoData);
       setMoovitMapaData(mapaData);
+      setMoovitGeneroData(generoData);
+      setMoovitFaixaEtariaData(faixaEtariaData);
     };
     loadMoovitData();
   }, []);
@@ -412,6 +420,17 @@ const DashboardContent = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <MoovitOperadoraChart data={moovitOperadoraData} filters={filters} />
               <MoovitAparelhoChart data={moovitAparelhoData} filters={filters} />
+            </div>
+          )}
+
+          {(moovitGeneroData.length > 0 || moovitFaixaEtariaData.length > 0) && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {moovitGeneroData.length > 0 && (
+                <MoovitGeneroChart data={moovitGeneroData} />
+              )}
+              {moovitFaixaEtariaData.length > 0 && (
+                <MoovitFaixaEtariaChart data={moovitFaixaEtariaData} />
+              )}
             </div>
           )}
 
