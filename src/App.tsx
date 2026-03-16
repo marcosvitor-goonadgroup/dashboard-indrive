@@ -423,8 +423,7 @@ const DashboardContent = () => {
             </div>
           )}
 
-          {/* Gênero e Faixa Etária — ocultos temporariamente */}
-          {false && (moovitGeneroData.length > 0 || moovitFaixaEtariaData.length > 0) && (
+          {(moovitGeneroData.length > 0 || moovitFaixaEtariaData.length > 0) && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {moovitGeneroData.length > 0 && (
                 <MoovitGeneroChart data={moovitGeneroData} />
