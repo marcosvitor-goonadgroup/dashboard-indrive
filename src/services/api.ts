@@ -216,21 +216,21 @@ const mapBaseRow = (row: string[]) => ({
 
 const mapRepresentacaoRow = (row: string[]) => ({
   numeroPi: row[2] || '',
-  veiculo: row[3] || '',   // Formato usado como veículo
+  veiculo: row[3] || '',        // Veículo
   canal: '',
-  formato: row[3] || '',
-  modeloCompra: row[4] || '',  // Modelos (CPM, CPC...)
-  valorNegociado: row[11] || '', // Valor Unitário Desc.
-  quantidade: row[9] || '',    // Volume
-  totalBruto: row[13] || '',   // Bruto Negociado
+  formato: row[4] || '',        // Formato
+  modeloCompra: row[5] || '',   // Modelos (CPM, CPC...)
+  valorNegociado: row[12] || '', // Valor Unitário Desc.
+  quantidade: row[10] || '',    // Volume
+  totalBruto: row[14] || '',    // Bruto Negociado
   status: '',
-  segmentacao: row[5] || '',
-  alcance: row[6] || '',
-  inicio: row[7] || '',
-  fim: row[8] || '',
+  segmentacao: row[6] || '',    // Segmentação
+  alcance: row[7] || '',        // Alcance
+  inicio: row[8] || '',         // Início
+  fim: row[9] || '',            // Fim
   publico: '',
-  praca: row[14] || '',
-  objetivo: row[15] || ''
+  praca: row[15] || '',         // Praça
+  objetivo: row[16] || ''       // Objetivo
 });
 
 export interface MoovitDeviceRow {
