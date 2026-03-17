@@ -247,7 +247,7 @@ const formatNumber = (num: number): string => {
 };
 
 /**
- * Chama a API da OpenAI
+ * Chama a API da OpenAI com fallback automático para Gemini
  */
 const callOpenAIAPI = async (prompt: string): Promise<string> => {
   try {
@@ -291,18 +291,17 @@ const callOpenAIAPI = async (prompt: string): Promise<string> => {
     const errorMessage = error.response?.data?.error?.message || error.message;
 
     console.error(`❌ Erro na API OpenAI: ${statusCode || 'Erro de rede'} - ${errorMessage}`);
+    console.log('🔄 Tentando fallback para Gemini...');
 
-    if (statusCode === 401) {
-      throw new Error('Chave de API inválida. Verifique a variável VITE_OPENAI_API_KEY no arquivo .env');
+    try {
+      const { callGeminiAPIPublic } = await import('./gemini');
+      const result = await callGeminiAPIPublic(prompt);
+      console.log('✅ Análise gerada com sucesso via fallback Gemini');
+      return result;
+    } catch (geminiError: any) {
+      console.error('❌ Fallback Gemini também falhou:', geminiError.message);
+      throw new Error(`OpenAI falhou (${statusCode || 'CORS'}): ${errorMessage}. Gemini falhou: ${geminiError.message}`);
     }
-    if (statusCode === 429) {
-      throw new Error('Limite de requisições atingido. Aguarde alguns minutos e tente novamente.');
-    }
-    if (statusCode === 500 || statusCode === 503) {
-      throw new Error('Serviço da OpenAI temporariamente indisponível. Tente novamente em alguns minutos.');
-    }
-
-    throw new Error(errorMessage || 'Erro ao gerar análise');
   }
 };
 

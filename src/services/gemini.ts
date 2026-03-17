@@ -277,6 +277,10 @@ const formatNumber = (num: number): string => {
  * 2. Se erro 429/503 (rate limit/indisponível), tenta o próximo modelo
  * 3. Se erro 400/403 (inválido/proibido), lança exceção (para tudo)
  */
+export const callGeminiAPIPublic = async (prompt: string): Promise<string> => {
+  return callGeminiAPI(prompt);
+};
+
 const callGeminiAPI = async (prompt: string): Promise<string> => {
   const payload = {
     contents: [{
