@@ -111,7 +111,8 @@ export const fetchCampaignData = async (): Promise<ProcessedCampaignData[]> => {
               videoEstaticoAudio: row[16] || '',
               viewability: parseNumber(row[17]),
               campanha: row[18] || '',
-              numeroPi: row[19] || ''
+              numeroPi: row[19] || '',
+              city: row[20] || ''
             };
             allData.push(dataRow);
           }

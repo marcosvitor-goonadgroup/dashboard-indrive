@@ -50,6 +50,7 @@ export interface ProcessedCampaignData {
   viewability?: number;
   campanha: string;
   numeroPi: string;
+  city: string;
   realInvestment?: number; // Investimento calculado pela tabela de preços
 }
 
